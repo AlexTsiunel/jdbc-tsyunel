@@ -14,10 +14,6 @@ import com.company.entity.FilmEntity;
 import com.company.entity.FilmEntity.RatingMPAA;
 
 public class FilmDao {
-//    private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
-//    private static final String PASSWORD = "admin";
-//    private static final String USER = "postgres";
-
     private static Connection connection;
 
     static {
@@ -30,7 +26,7 @@ public class FilmDao {
     }
 
     public List<FilmEntity> getFilteredFilmsList(String SQL) throws SQLException {
-        
+
         List<FilmEntity> list = new ArrayList<>();
 
         Statement statement = connection.createStatement();
@@ -58,8 +54,16 @@ public class FilmDao {
         filmEntity.setRating(formatStringToMPPA(result.getString(11)));
         filmEntity.setLastUpdate(result.getObject(12, OffsetDateTime.class));
         filmEntity.setSpecialFeatures(result.getString(13));
-//        filmEntity.setSpecialFeatures(result.getString(13));
         return filmEntity;
+    }
+
+    public void close() {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
     }
 
     private RatingMPAA formatStringToMPPA(String str) {
