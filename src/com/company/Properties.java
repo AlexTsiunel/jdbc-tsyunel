@@ -1,0 +1,20 @@
+package com.company;
+
+public class Properties {
+    private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
+    private static final String PASSWORD = "admin";
+    private static final String USER = "postgres";
+
+    public static String getUrl() {
+        return URL;
+    }
+
+    public static String getPassword() {
+        return PASSWORD;
+    }
+
+    public static String getUser() {
+        return USER;
+    }
+
+}
