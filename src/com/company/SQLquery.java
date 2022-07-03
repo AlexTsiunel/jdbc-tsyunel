@@ -52,4 +52,52 @@ public class SQLquery {
                     + "(SELECT fc.film_id "//
                     + "FROM film_category fc "//
                     + "WHERE fc.category_id = 5)";
+    
+    public static final String task8 = //
+            "SELECT "//
+            + "a.actor_id , "//
+            + "a.first_name, "//
+            + "a.last_name, "//
+            + "a.last_update "//
+            + "FROM actor a " //
+            + "WHERE a.actor_id IN "//
+            + "(SELECT fa.actor_id "//
+            + "FROM film_actor fa "//
+            + "WHERE fa.film_id IN "//
+            + "(SELECT f.film_id "//
+            + "FROM film f "//
+            + "WHERE f.release_year < 1998 "//
+            + "AND f.film_id IN "//
+            + "(SELECT fc.film_id "//
+            + "FROM film_category fc "
+            + "WHERE fc.category_id ='7')) "//
+            + "GROUP BY fa.actor_id) "//
+            + "ORDER BY a.actor_id;";//
+    
+    public static final String task9 = //
+            "SELECT "
+            + "c.category_id, "
+            + "c.name, "
+            + "c.last_update "
+            + "FROM category c "
+            + "WHERE c.category_id  IN "
+            + "(SELECT fc.category_id "
+            + "FROM film_category fc "
+            + "GROUP BY fc.category_id "
+            + "ORDER BY count(*) DESC "
+            + "LIMIT (5));";
+    
+    public static final String task10 = //
+            "SELECT "//
+            + "a.actor_id, "//
+            + "a.first_name, "//
+            + "a.last_name, "//
+            + "a.last_update "//
+            + "FROM actor a "//
+            + "WHERE a.actor_id IN "//
+            + "(SELECT fa.actor_id "//
+            + "FROM film_actor fa "//
+            + "GROUP BY fa.actor_id "//
+            + "ORDER BY count(*) DESC "//
+            + "LIMIT (3));";
 }
