@@ -2,7 +2,7 @@ package com.company;
 
 public class Properties {
     private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
-    private static final String PASSWORD = "admin";
+    private static final String PASSWORD = "root";
     private static final String USER = "postgres";
 
     public static String getUrl() {
