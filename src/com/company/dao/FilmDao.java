@@ -1,7 +1,6 @@
 package com.company.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -9,23 +8,11 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.company.Properties;
 import com.company.entity.FilmEntity;
 import com.company.entity.FilmEntity.RatingMPAA;
 
 public class FilmDao {
-    private static Connection connection;
-
-    static {
-        try {
-            connection = DriverManager.getConnection(Properties.URL, Properties.USER, Properties.PASSWORD);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException();
-        }
-    }
-
-    public List<FilmEntity> getFilteredFilmsList(String SQL) throws SQLException {
+    public static List<FilmEntity> getFilteredFilmsList(String SQL, Connection connection) throws SQLException {
 
         List<FilmEntity> list = new ArrayList<>();
 
@@ -34,12 +21,10 @@ public class FilmDao {
         while (result.next()) {
             list.add(getFilmEntityFromDB(result));
         }
-
         return list;
-
     }
 
-    private FilmEntity getFilmEntityFromDB(ResultSet result) throws SQLException {
+    private static FilmEntity getFilmEntityFromDB(ResultSet result) throws SQLException {
         FilmEntity filmEntity = new FilmEntity();
         filmEntity.setId(result.getLong(1));
         filmEntity.setTitle(result.getString(2));
@@ -56,17 +41,8 @@ public class FilmDao {
         filmEntity.setSpecialFeatures(result.getString(13));
         return filmEntity;
     }
-
-    public void close() {
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException();
-        }
-    }
-
-    private RatingMPAA formatStringToMPPA(String str) {
+    
+    private static RatingMPAA formatStringToMPPA(String str) {
         RatingMPAA rating = null;
         switch (str) {
         case "G":
